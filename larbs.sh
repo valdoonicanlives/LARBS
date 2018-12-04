@@ -12,7 +12,6 @@
 ###
 ### OPTIONS AND VARIABLES ###
 ###
-
 while getopts ":a:r:p:h" o; do case "${o}" in
 	h) echo -e "Optional arguments for custom use:\\n  -r: Dotfiles repository (local file or url)\\n  -p: Dependencies and programs csv (local file or url)\\n  -a: AUR helper (must have pacman-like syntax)\\n  -h: Show this message" && exit ;;
 	r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
@@ -22,8 +21,10 @@ while getopts ":a:r:p:h" o; do case "${o}" in
 esac done
 
 # DEFAULTS:
-[ -z ${dotfilesrepo+x} ] && dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
-[ -z ${progsfile+x} ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
+# changed below to point to my dotfiles also forked
+[ -z ${dotfilesrepo+x} ] && dotfilesrepo="https://github.com/valdoonicanlives/voidrice.git"
+# replaced below line so it points to my progs.csv file on my forked repo
+[ -z ${progsfile+x} ] && progsfile="https://github.com/valdoonicanlives/LARBS/blob/master/progs.csv"
 [ -z ${aurhelper+x} ] && aurhelper="yay"
 
 ###
@@ -198,7 +199,7 @@ installationloop
 putgitrepo "$dotfilesrepo" "/home/$name"
 
 # Install the LARBS Firefox profile in ~/.mozilla/firefox/
-putgitrepo "https://github.com/LukeSmithxyz/mozillarbs.git" "/home/$name/.mozilla/firefox"
+# putgitrepo "https://github.com/LukeSmithxyz/mozillarbs.git" "/home/$name/.mozilla/firefox"
 
 # Installation of the post-install wizard
 #putgitrepo "https://github.com/LukeSmithxyz/arch-postinstall-wizard" "/home/$name/larbs-wizard"
@@ -208,8 +209,8 @@ putgitrepo "https://github.com/LukeSmithxyz/mozillarbs.git" "/home/$name/.mozill
 [[ -f /usr/bin/pulseaudio ]] && resetpulse
 
 # Install vim `plugged` plugins.
-dialog --infobox "Installing vim plugins..." 4 50
-sudo -u "$name" vim -E -c "PlugUpdate|visual|q|q" >/dev/null
+#dialog --infobox "Installing vim plugins..." 4 50
+#sudo -u "$name" vim -E -c "PlugUpdate|visual|q|q" >/dev/null
 
 # Enable services here.
 serviceinit NetworkManager cronie
